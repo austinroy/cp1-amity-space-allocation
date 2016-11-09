@@ -27,5 +27,5 @@ class TestPerson(unittest.Testcase):
 		self.asserTrue((issubclass(Staff,Person)),
 						 msg='Class Staff should be a subclass of Person')
 
-if __name__ = '__main__':
+if __name__ == '__main__':
 	unittest.main()
