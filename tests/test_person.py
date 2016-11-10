@@ -28,5 +28,30 @@ class TestPerson(unittest.TestCase):
                         msg='Class Staff should be a subclass of Person')
 
 
+class TestAddPerson(unittest.TestCase):
+    """Tests the validity of the add_person function"""
+    # def __init__(self, arg):
+    #     super(TestAddPerson, self).__init__()
+    #     self.arg = arg
+
+    def test_person_is_fellow_or_staff(self,person_title):
+        """Validates that the person added has a title of either fellow or staff
+         and nothing other than those two"""
+        self.assertTrue((
+                        person_title == "fellow" or
+                        person_title == "staff"),
+                        msg="person_title should be either fellow or staff")
+
+    def test_staff_not_given_livingspace(self):
+        pass
+
+
+class TestRellocatePerson(object):
+    """Tests validity of the rellocate_person function"""
+    def __init__(self, arg):
+        super(TestRellocatePerson, self).__init__()
+        self.arg = arg
+
+
 if __name__ == '__main__':
     unittest.main()
