@@ -1,20 +1,21 @@
-class Room(object):
-    """docstring for Room"""
+class Person(object):
+    """docstring for Person"""
 
     # def __init__(self, arg):
     # 	super(Room, self).__init__()
     # 	self.arg = arg
 
 
-class Office(Room):
-    """docstring for Office"""
+class Fellow(Person):
+    """docstring for Fellow"""
+
     # def __init__(self, arg):
     # 	super(Office, self).__init__()
     # 	self.arg = arg
 
 
-class LivingSpace(Room):
-    """docstring for Office"""
+class Staff(Person):
+    """docstring for Staff"""
 
     # def __init__(self, arg):
     # 	super(Office, self).__init__()
