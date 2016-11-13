@@ -14,16 +14,12 @@ class TestRoom(unittest.TestCase):
             "Living": True,
             "Office": False
         })
-    """Create sample living space"""
+        """Create sample living space"""
         self.room.create_room({
             "<room_name>": ["Office1"],
             "Living": False,
             "Office": True
         })
-
-        # Assign rooms to variables
-        self.livinga = self.room.livingspaces[0]
-        self.officea = self.room.offices[0]
 
     def test_office_subclass_of_room(self):
         """Tests if class Office is a subclass of class Room"""
@@ -35,37 +31,40 @@ class TestRoom(unittest.TestCase):
         self.assertTrue((issubclass(LivingSpace, Room)),
                         msg='Class LivingSpace should be a subclass of Room')
 
-    def test_create_room():
+    def test_create_room(self):
         """Test creation of rooms"""
-        # LivingA and OfficeA from setup() added to relevant lists
-        self.assertEqual(2, len(self.test_amity.rooms))
-        self.assertEqual(1, len(self.test_amity.livingspaces))
-        self.assertEqual(1, len(self.test_amity.offices))
+        # Check rooms created added to relevant lists
+        self.assertEqual(2, len(self.room.rooms))
+        self.assertEqual(1, len(self.room.livingspaces))
+        self.assertEqual(1, len(self.room.offices))
+
+        """Validates that duplicate rooms are not added"""
+        self.room.create_room({
+            "<room_name>": ["Office1"],
+            "Living": False,
+            "Office": True
+        })
+        # Duplicate rooms not added to any list
+        self.assertEqual(2, len(self.room.rooms))
+        self.assertEqual(1, len(self.room.offices))
 
     def test_room_has_a_unique_name(self):
         pass
 
-    def function():
-        pass
-
-
-class TestPrintRoom(unittest.TestCase):
-    """Tests for the print_room function"""
-
-
-class TestOfficeStructure(unittest.TestCase):
-    """Tests class Office structure"""
-
     def test_office_has_capacity_of_6(self):
         """Ensure office has a capacity of 6"""
+        office = Office()
+        self.assertEqual(6, self.office.max_occupancy)
         pass
 
-
-class TestLvivngSpaceStructure(object):
-    """Tests class Office structure"""
-
     def test_livingspace_has_capacity_of_4(self):
+        livingspace = LivingSpace()
+        self.assertEqual(4, self.livingspace.max_occupancy)
         """Ensure livingspace has a capacity of 4"""
+        pass
+
+    def test_print_room():
+        """Tests for the print_room function"""
         pass
 
 
