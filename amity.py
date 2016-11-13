@@ -1,6 +1,5 @@
 class Amity(object):
-    """docstring for ClassName"""
+    """docstring for Amity"""
 
-    # def __init__(self, arg):
-    # 	super(ClassName, self).__init__()
-    # 	self.arg = arg
+    def __init__(self):
+        pass
