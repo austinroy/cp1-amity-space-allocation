@@ -34,7 +34,7 @@ class TestAddPerson(unittest.TestCase):
     #     super(TestAddPerson, self).__init__()
     #     self.arg = arg
 
-    def test_person_is_fellow_or_staff(self,person_title):
+    def test_person_is_fellow_or_staff(self):
         """Validates that the person added has a title of either fellow or staff
          and nothing other than those two"""
         self.assertTrue((
