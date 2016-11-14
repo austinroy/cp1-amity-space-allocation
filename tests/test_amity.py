@@ -9,13 +9,13 @@ class TestRoom(unittest.TestCase):
     def setUp(self):
         self.amity = Amity()
 
-    def test_print_allocations():
+    def test_print_allocations(self):
         pass
 
-    def test_print_unallocated():
+    def test_print_unallocated(self):
         pass
 
-    def test_load_people():
+    def test_load_people(self):
         pass
 
 

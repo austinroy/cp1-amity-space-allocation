@@ -20,7 +20,7 @@ class TestRoom(unittest.TestCase):
             "Living": False,
             "Office": True
         })
-        self.office1 = self.test_amity.offices[0]
+        self.office1 = self.room.offices[0]
 
     def test_office_subclass_of_room(self):
         """Tests if class Office is a subclass of class Room"""
