@@ -49,17 +49,14 @@ class TestRoom(unittest.TestCase):
         self.assertEqual(2, len(self.room.rooms))
         self.assertEqual(1, len(self.room.offices))
 
-    def test_room_has_a_unique_name(self):
-        pass
-
     def test_office_has_capacity_of_6(self):
         """Ensure office has a capacity of 6"""
-        office = Office()
+        self.office = Office()
         self.assertEqual(6, self.office.max_occupancy)
         pass
 
     def test_livingspace_has_capacity_of_4(self):
-        livingspace = LivingSpace()
+        self.livingspace = LivingSpace()
         self.assertEqual(4, self.livingspace.max_occupancy)
         """Ensure livingspace has a capacity of 4"""
         pass

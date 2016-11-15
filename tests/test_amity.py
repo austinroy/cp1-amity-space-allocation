@@ -10,12 +10,15 @@ class TestRoom(unittest.TestCase):
         self.amity = Amity()
 
     def test_print_allocations(self):
+        """Tests that allocations are printed"""
         pass
 
     def test_print_unallocated(self):
+        """Tests that unallocated people are printed"""
         pass
 
     def test_load_people(self):
+        """Tests loading of people from text file"""
         pass
 
 

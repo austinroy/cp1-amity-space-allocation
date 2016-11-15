@@ -2,7 +2,7 @@ import unittest
 
 from person import Person, Fellow, Staff
 
-from room import Room, Office, LivingSpace
+from room import Room
 
 
 class TestPerson(unittest.TestCase):
@@ -75,6 +75,7 @@ class TestPerson(unittest.TestCase):
 
     def test_staff_not_given_livingspace(self):
         """Validates staff are not given living space"""
+        self.assertEqual()
         pass
 
     def test_fellow_given_accomodation_option(self):
