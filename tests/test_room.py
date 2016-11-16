@@ -51,15 +51,13 @@ class TestRoom(unittest.TestCase):
 
     def test_office_has_capacity_of_6(self):
         """Ensure office has a capacity of 6"""
-        self.office = Office()
-        self.assertEqual(6, self.office.max_occupancy)
-        pass
+        office = Office()
+        self.assertEqual(6, office.max_occupancy)
 
     def test_livingspace_has_capacity_of_4(self):
-        self.livingspace = LivingSpace()
-        self.assertEqual(4, self.livingspace.max_occupancy)
+        livingspace = LivingSpace()
+        self.assertEqual(4, livingspace.max_occupancy)
         """Ensure livingspace has a capacity of 4"""
-        pass
 
     def test_print_room():
         """Tests for the print_room function"""
