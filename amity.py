@@ -4,13 +4,13 @@ class Amity(object):
     def __init__(self):
         pass
 
-    def add_person():
+    def add_person(first_name, last_name):
         pass
 
     def reallocate_person():
         pass
 
-    def create_room():
+    def create_room(room_name):
         pass
 
     def load_people():
