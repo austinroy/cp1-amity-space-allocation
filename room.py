@@ -1,21 +1,19 @@
 class Room(object):
     """docstring for Room"""
+    max_occupancy = 0
+    occupants = []
 
-    # def __init__(self, arg):
-    # 	super(Room, self).__init__()
-    # 	self.arg = arg
+    def __init__(self):
+        pass
 
 
 class Office(Room):
     """docstring for Office"""
-    # def __init__(self, arg):
-    # 	super(Office, self).__init__()
-    # 	self.arg = arg
+    def __init__(self):
+        pass
 
 
 class LivingSpace(Room):
     """docstring for Office"""
-
-    # def __init__(self, arg):
-    # 	super(Office, self).__init__()
-    # 	self.arg = arg
+    def __init__(self):
+        pass
