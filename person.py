@@ -3,7 +3,7 @@ class Person(object):
     person_id = 1
 
     def __init__(self, person_title):
-        self.person_title =person_title
+        self.person_title = person_title
 
 
 class Fellow(Person):
