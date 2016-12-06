@@ -16,7 +16,7 @@ class TestAmity(unittest.TestCase):
         """Create sample living space"""
         self.amity.create_room(
             "LivingSpace1",
-            "Living Space"
+            "Living"
         )
 
         """Create sample office"""
@@ -24,23 +24,23 @@ class TestAmity(unittest.TestCase):
             "Office1",
             "Office"
         )
-        # self.office1 = self.amity.offices[0]
+        self.office1 = self.amity.offices[0]
         # self.livingspace1 = self.amity.livingspace[0]
 
         """Add fellow that wants accomodation"""
         self.amity.add_person(
             "Random",
             "Fellow",
-            "Y",
-            "Fellow"
+            "Fellow",
+            "Y"
         )
 
         """Add staff member that wants accomodation"""
         self.amity.add_person(
             "Random",
             "Staff",
-            "Y",
-            "Staff"
+            "Staff",
+            "Y"
         )
 
     def test_create_room(self):
@@ -58,27 +58,21 @@ class TestAmity(unittest.TestCase):
         # Duplicate rooms not added to any list
         self.assertEqual(2, len(self.amity.rooms))
         self.assertEqual(1, len(self.amity.offices))
-        """Validates that the person added has a title of either fellow or staff
-         and nothing other than those two"""
-        self.assertTrue((
-                        self.amity.add_person.person_title == "Fellow" or
-                        self.amity.add_person.person_title == "Staff"),
-                        msg="person_title should be either Fellow or Staff")
 
     def test_office_has_capacity_of_6(self):
         """Ensure office has a capacity of 6"""
-        office = Office()
+        office = Office(self)
         self.assertEqual(6, office.max_occupancy)
 
     def test_livingspace_has_capacity_of_4(self):
-        livingspace = LivingSpace()
+        livingspace = LivingSpace(self)
         self.assertEqual(4, livingspace.max_occupancy)
         """Ensure livingspace has a capacity of 4"""
 
     def test_print_room(self):
         """Tests for the print_room function"""
-        room = Room()
-        self.assertEqual([], self.room.occupants)
+        room = Room(self)
+        self.assertEqual([], room.occupants)
         pass
 
     def test_add_person(self):
@@ -88,12 +82,6 @@ class TestAmity(unittest.TestCase):
         self.assertEqual(1, len(self.amity.fellows))
         self.assertEqual(1, len(self.amity.staff))
 
-        """Test if those who want accomodation are assigned rooms"""
-        # Ensure that these people have been appended to rooms' occupants
-        self.assertEqual(2, len(self.office1.occupants),
-                         msg="Newly added people should \n"
-                         "be added to room occupants")
-
     # def test_person_is_fellow_or_staff(self):
     #     """Validates that the person added has a title of either fellow or staff
     #      and nothing other than those two"""
@@ -101,6 +89,12 @@ class TestAmity(unittest.TestCase):
     #                     self.person.person_title == "Fellow" or
     #                     self.person.person_title == "Staff"),
     #                     msg="person_title should be either Fellow or Staff")
+    def test_automatic_allocation_new_person(self):
+        """Test new people are automoatically assigned offices"""
+        # Ensure that these people have been appended to rooms' occupants
+        self.assertEqual(2, len(self.office1.occupants),
+                         msg="Newly added people should \
+be added to room occupants")
 
     def test_rellocate_person(self):
         """Tests the rellocation of people"""
@@ -110,9 +104,10 @@ class TestAmity(unittest.TestCase):
             "Office"
         )
         self.office2 = self.amity.offices[1]
+        self.randomstaff = self.amity.staff[0]
 
         """Test the reallocation of Random Staff to office 2 from office 1"""
-        self.reallocate_person({
+        self.amity.reallocate_person({
             int(self.randomstaff.person_id),
             "Office2",
         })
