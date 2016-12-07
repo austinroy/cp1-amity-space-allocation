@@ -23,21 +23,23 @@ class Amity(object):
         name = first_name + " " + last_name
         if person_title.upper() == "FELLOW":
             new_person = Fellow(name)
+            new_id = str(new_person.person_id)
             self.people.append(new_person)
             self.fellows.append(new_person)
             self.allocate_office(new_person)
             if wants_accomodation.upper() == "Y":
                 self.allocate_livingspace(new_person)
                 self.add_person_successfully(
-                    name, person_title, wants_accomodation)
+                    name, new_id, person_title, wants_accomodation)
             return
         elif person_title.upper() == "STAFF":
             new_person = Staff(name)
+            new_id = str(new_person.person_id)
             self.people.append(new_person)
             self.staff.append(new_person)
             self.allocate_office(new_person)
             self.add_person_successfully(
-                name, person_title, wants_accomodation)
+                name, new_id, person_title, wants_accomodation)
             return
         else:
             print "Please enter 'Fellow' or 'Staff' as the job title"
@@ -88,15 +90,17 @@ class Amity(object):
     def reallocate_person(self, person_id, new_room_name):
         pass
 
-    def add_person_successfully(self, name, person_title, wants_accomodation):
+    def add_person_successfully(self, name, person_id,
+                                person_title, wants_accomodation):
         print "You've successfully added \n" \
-            + "\nName: " + name + " ID: " + \
+            + "\nName: " + name + " ID: " + person_id +\
             "\nJob title: " + person_title + \
             "\nWants accomodation: " + wants_accomodation
 
     def create_room(self, room_name, room_type):
         """Adds a new room in the system"""
-        if room_name not in [single_room.room_name for single_room in self.rooms]:
+        if room_name not in \
+                [single_room.room_name for single_room in self.rooms]:
             if room_type.upper() == "OFFICE":
                 new_room = Office(room_name)
                 self.offices.append(new_room)

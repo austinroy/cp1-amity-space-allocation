@@ -90,7 +90,9 @@ class MyInteractive (cmd.Cmd, Amity):
 
     @docopt_cmd
     def do_add_person(self, arg):
-        """Usage: add_person <first_name> <last_name> <title> <wants_accomodation>"""
+        """
+        Usage: add_person <first_name> <last_name> <title> <wants_accomodation>
+        """
         first_name = arg["<first_name>"]
         last_name = arg["<last_name>"]
         person_title = arg["<title>"]

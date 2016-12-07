@@ -1,6 +1,5 @@
 class Person(object):
     """docstring for Person"""
-    person_id = 1
 
     def __init__(self, name):
         self.name = name
@@ -12,6 +11,7 @@ class Fellow(Person):
     def __init__(self, name):
         self.name = name
         self.person_title = "Fellow"
+        self.person_id = id(self)
 
 
 class Staff(Person):
@@ -20,3 +20,4 @@ class Staff(Person):
     def __init__(self, name):
         self.name = name
         self.person_title = "Staff"
+        self.person_id = id(self)
