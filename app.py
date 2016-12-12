@@ -137,8 +137,7 @@ class MyInteractive (cmd.Cmd, Amity):
     @docopt_cmd
     def do_save_state(self, arg):
         """Usage: save_state [--db=sqlite_database]"""
-        db = arg["--db"]
-        amity.save_state(db)
+        amity.save_state(arg)
 
     @docopt_cmd
     def do_load_state(self, arg):

@@ -188,8 +188,8 @@ class TestAmity(unittest.TestCase):
         """Tests that the current state of the application is saved to a DB"""
         conn = sqlite3.connect('amity.db')
         cursor = conn.cursor()
-        self.assertFalse(self.amity.create_tables(), False)
-        self.amity.save_state('amity.db')
+        self.assertFalse(self.amity.create_tables("amity.db"), False)
+        self.amity.save_state({"--db":"amity.db"})
 
         cursor.execute("SELECT * from People")
         for row in cursor:

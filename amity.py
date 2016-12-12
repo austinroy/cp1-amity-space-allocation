@@ -21,8 +21,6 @@ class Amity(object):
         self.vacant_livingspaces = []
         self.vacant_rooms = []
         self.unallocated = []
-        self.conn = sqlite3.connect(dbname)
-        self.connect = self.conn.cursor()
 
     def add_person(self, first_name, last_name, person_title,
                    wants_accomodation="N"):
@@ -125,7 +123,7 @@ class Amity(object):
             return
 
         if moving_person.person_title == "Staff":
-            """Prevent staff from being allocated living spaces"""
+            # Prevent staff from being allocated living spaces
             if new_room.room_type == "Living":
                 print "Staff members cannot be allocated " \
                     "living spaces."
@@ -135,14 +133,14 @@ class Amity(object):
             if moving_person.person_id in \
                     [human.person_id for human in room.occupants]:
                 if new_room == room:
-                    """Prevent person from being allocated the same room"""
+                    # Prevent person from being allocated the same room
                     print moving_person.name + " is already an occupant" \
                         " of the room " + new_room.name + "."
                     return
                 else:
-                    """Remove person from current office"""
+                    # Remove person from current office
                     room.occupants.remove(moving_person)
-        """Add person to new room"""
+        # Add person to new room
         new_room.occupants.append(moving_person)
         print "You have successfully allocated " + moving_person.name + \
             " of Employee ID " + str(moving_person.person_id) + \
@@ -222,8 +220,10 @@ class Amity(object):
         """Loads data from a db"""
         pass
 
-    def create_tables(self):
+    def create_tables(self, dbname):
         '''Creates the database tables'''
+        self.conn = sqlite3.connect(dbname)
+        self.connect = self.conn.cursor()
         try:
             self.connect.execute(
                 """CREATE TABLE IF NOT EXISTS People\
@@ -239,7 +239,13 @@ class Amity(object):
 
     def save_state(self, arg):
         """Saves the state of the data"""
-        self.create_tables()
+        if arg["--db"]:
+            dbname = arg["--db"]
+        else:
+            dbname = "amity.db"
+        self.conn = sqlite3.connect(dbname)
+        self.connect = self.conn.cursor()
+        self.create_tables(dbname)
         for person in self.people:
             self.connect.execute(
                 "INSERT INTO People(Name, Person_Title, Person_id ) VALUES(?, ?, ?)",
@@ -255,6 +261,7 @@ class Amity(object):
             self.conn.commit()
 
     def print_allocations(self, arg):
+        """Prints the rooms and their occupants"""
         details = "ALLOCATIONS\n" + "=" * 75 + "\n"
         if not self.rooms:
             details = "There are no rooms in the system at the moment"
@@ -273,6 +280,7 @@ class Amity(object):
                 print "Allocations were saved to: {}".format(arg["--o"])
 
     def print_unallocated(self, arg):
+        """Prints a list of unallocated people and their IDs"""
         details = "UNALLOCATED PEOPLE\n" + "=" * 75 + "\n"
         if not self.unallocated:
             details += "There are no unallocated people at the moment"
