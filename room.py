@@ -14,6 +14,7 @@ class Office(Room):
         self.room_name = room_name
         self.max_occupancy = 6
         self.occupants = []
+        self.room_type = "Office"
 
 
 class LivingSpace(Room):
@@ -23,3 +24,4 @@ class LivingSpace(Room):
         self.room_name = room_name
         self.max_occupancy = 4
         self.occupants = []
+        self.room_type = "Living"

@@ -78,8 +78,8 @@ class MyInteractive (cmd.Cmd, Amity):
         print_room <room_name>
         reallocate_person <person_identifier> <new_room_name>
         load_people
-        print_allocations [-o=filename]
-        print_unallocated [-o=filename]
+        print_allocations [--o=filename]
+        print_unallocated [--o=filename]
         save_state [--db=sqlite_database]
         load_state [--db=sqlite_database]
         quit
@@ -109,15 +109,15 @@ class MyInteractive (cmd.Cmd, Amity):
 
     @docopt_cmd
     def do_reallocte_person(self, arg):
-        """Usage: reallocate_person <person_identifier> <new_room_name>"""
-        person_id = arg["<person_identifier>"]
+        """Usage: reallocate_person <person_id> <new_room_name>"""
+        person_id = arg["<person_id>"]
         new_room_name = arg["<new_room_name>"]
-        amity.reallocate_person(self, person_id, new_room_name)
+        amity.reallocate_person(person_id, new_room_name)
 
     @docopt_cmd
-    def do_load_people(self):
-        """Usage: load_people"""
-        amity.load_people()
+    def do_load_people(self, arg):
+        """Usage: load_people <filename>"""
+        amity.load_people(arg)
 
     @docopt_cmd
     def do_print_room(self, arg):
@@ -126,26 +126,24 @@ class MyInteractive (cmd.Cmd, Amity):
 
     @docopt_cmd
     def do_print_allocations(self, arg):
-        """Usage: print_allocations [-o=filename]"""
-        amity.print_allocations()
+        """Usage: print_allocations [--o=filename]"""
+        amity.print_allocations(arg)
 
     @docopt_cmd
     def do_print_unallocated(self, arg):
-        """print_unallocated [-o=filename]"""
-        filename = arg["[-o=filename]"]
-        amity.print_unallocated(filename)
+        """Usage: print_unallocated [--o=filename]"""
+        amity.print_unallocated(arg)
 
     @docopt_cmd
     def do_save_state(self, arg):
-        """save_state [--db=sqlite_database]"""
-        db = arg["[--db=sqlite_database]"]
+        """Usage: save_state [--db=sqlite_database]"""
+        db = arg["--db"]
         amity.save_state(db)
 
     @docopt_cmd
     def do_load_state(self, arg):
-        """load_state [--db=sqlite_database]"""
-        db = arg["[--db=sqlite_database]"]
-        amity.load_state(db)
+        """Usage: load_state [--db=sqlite_database]"""
+        amity.load_state(arg)
 
     def do_quit(self, arg):
         """Quits out of Interactive Mode."""

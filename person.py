@@ -1,9 +1,6 @@
 class Person(object):
     """docstring for Person"""
 
-    def __init__(self, name):
-        self.name = name
-
 
 class Fellow(Person):
     """docstring for Fellow"""
