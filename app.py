@@ -4,7 +4,7 @@ This example uses docopt with the built in cmd module to demonstrate an
 interactive command application.
 
 Usage:
-    Amity>>> add_person <first_name> <last_name> <title> <wants_accomodation>
+    Amity>>> add_person <first_name> <last_name> <title> [--accomodate=wantsaccomodation]
     Amity>>> create_room <room_type> <room_name>...
     Amity>>> print_room <room_name>
     Amity>>> reallocate_person <person_identifier> <new_room_name>
@@ -74,7 +74,7 @@ class MyInteractive (cmd.Cmd, Amity):
         List of commands
         =================================================
         create_room <Living|Office> <room_name>...
-        add_person <first_name> <last_name> <Staff|Fellow> (Y|N)
+        add_person <first_name> <last_name> <Staff|Fellow> [--accomodate=wantsaccomodation]
         print_room <room_name>
         reallocate_person <person_identifier> <new_room_name>
         load_people
@@ -91,12 +91,15 @@ class MyInteractive (cmd.Cmd, Amity):
     @docopt_cmd
     def do_add_person(self, arg):
         """
-        Usage: add_person <first_name> <last_name> <title> <wants_accomodation>
+        Usage: add_person <first_name> <last_name> <title> [--accomodate=wantsaccomodation]
         """
         first_name = arg["<first_name>"]
         last_name = arg["<last_name>"]
         person_title = arg["<title>"]
-        wants_accomodation = arg["<wants_accomodation>"]
+        if arg["--accomodate"]:
+            wants_accomodation = arg["--accomodate"]
+        else:
+            wants_accomodation = "N"
         amity.add_person(first_name, last_name, person_title,
                          wants_accomodation)
 

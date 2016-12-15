@@ -1,0 +1,24 @@
+[run]
+branch = True
+omit =
+    */tests/*
+    test_*
+    */sqlite3*
+    */encodings*
+
+
+
+[report]
+# Regexes for lines to exclude from consideration
+exclude_lines =
+        # Have to re-enable the standard pragma
+        pragma: no cover
+
+        if 0:
+        if __name__ == .__main__.:
+        if __name__==.__main__.:
+        print
+
+
+
+ignore_errors = True

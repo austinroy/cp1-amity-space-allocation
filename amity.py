@@ -6,6 +6,8 @@ import random
 
 import sqlite3
 
+import pickle
+
 
 class Amity(object):
     """docstring for Amity"""
@@ -18,7 +20,6 @@ class Amity(object):
         self.staff = []
         self.offices = []
         self.vacant_offices = []
-        self.vacant_livingspaces = []
         self.vacant_rooms = []
         self.unallocated = []
 
@@ -36,6 +37,7 @@ class Amity(object):
                 self.allocate_livingspace(new_person)
             self.add_person_successfully(
                 name, new_id, person_title, wants_accomodation)
+            self.check_office_vacancy()
             if not allocated:
                 self.unallocated.append(new_person)
             return
@@ -45,6 +47,7 @@ class Amity(object):
             self.people.append(new_person)
             self.staff.append(new_person)
             self.allocate_office(new_person)
+            self.check_office_vacancy()
             self.add_person_successfully(
                 name, new_id, person_title, wants_accomodation)
             if not allocated:
@@ -61,24 +64,29 @@ class Amity(object):
             print new_person.name + " assigned the office " + \
                 self.workspace.room_name
             allocated = True
-            self.check_room_vacancy()
+            self.check_office_vacancy()
         else:
             print "No vacant offices at the moment,add one or try again later"
+            return
 
     def allocate_livingspace(self, new_person):
         """Allocates Living spaces"""
-        if len(self.vacant_livingspaces):
-            self.livespace = random.choice(self.vacant_livingspaces)
-            self.livespace.occupants.append(new_person)
+        vacant_livingspaces = []
+        for room in self.rooms:
+            if room.room_type == "Living" and room.isvacant:
+                vacant_livingspaces.append(room)
+        if len(vacant_livingspaces):
+            livespace = random.choice(vacant_livingspaces)
+            livespace.occupants.append(new_person)
             print new_person.name + " assigned the livingspace " + \
-                self.livespace.room_name
+                livespace.room_name
             allocated = True
-            self.check_room_vacancy()
         else:
             print "No vacant livingspaces at the moment," \
                 "add one or try again later"
+            return
 
-    def check_room_vacancy(self):
+    def check_office_vacancy(self):
         """Adds and removes rooms from vacancy lists \
         according to status of the room"""
         for office in self.offices:
@@ -91,16 +99,6 @@ class Amity(object):
                 if office in self.vacant_offices:
                     self.vacant_offices.remove(office)
                     self.vacant_rooms.remove(office)
-        for livingspace in self.livingspaces:
-            space = Room(livingspace)
-            if len(space.occupants) < space.max_occupancy:
-                if livingspace not in self.vacant_livingspaces:
-                    self.vacant_livingspaces.append(livingspace)
-                    self.vacant_rooms.append(livingspace)
-            elif len(space.occupants) >= space.max_occupancy:
-                if livingspace in self.vacant_livingspaces:
-                    self.vacant_livingspaces.remove(livingspace)
-                    self.vacant_rooms.remove(livingspace)
 
     def reallocate_person(self, person_id, new_room_name):
         """Reallocates people to new rooms"""
@@ -170,9 +168,9 @@ class Amity(object):
             new_room = LivingSpace(room_name)
             self.livingspaces.append(new_room)
             self.rooms.append(new_room)
-            self.vacant_livingspaces.append(new_room)
             self.vacant_rooms.append(new_room)
             self.succesful_create_room(room_name, room_type)
+
         else:
             print "Please enter 'Office' or 'Living' as the room type"
 
@@ -200,25 +198,44 @@ class Amity(object):
 
     def print_room(self, room_name):
         """Prints the occupants of a given room"""
+
         for room in self.rooms:
-            if room_name == self.rooms[room].room_name:
+            if room_name == Rooms.room_name:
                 print room_name
 
                 print "=" * 75
                 if len(self.rooms[room].occupants):
-                    for member in range(len(self.rooms[room].occupants)):
+                    for member in range(len(room.occupants)):
                         print "{}.\t{}".format(
                             member + 1,
-                            self.rooms[room].occupants[member])
+                            room.occupants[member])
                 else:
                     print "Room has no occupants at the moment"
             else:
                 print room_name + \
                     " not created yet, use 'create_room' to add it"
+                return
 
-    def load_state(self):
+    def load_state(self, arg):
         """Loads data from a db"""
-        pass
+        if arg["--db"]:
+            dbname = arg["--db"]
+        else:
+            dbname = "amity.db"
+        self.conn = sqlite3.connect(dbname)
+        self.connect = self.conn.cursor()
+        self.connect.execute("SELECT State FROM State")
+        data = self.connect.fetchone()[0]
+        state = pickle.loads(data)
+        self.rooms = state[0]
+        self.livingspaces = state[1]
+        self.people = state[2]
+        self.fellows = state[3]
+        self.staff = state[4]
+        self.offices = state[5]
+        self.vacant_offices = state[7]
+        self.vacant_rooms = state[8]
+        self.unallocated = state[8]
 
     def create_tables(self, dbname):
         '''Creates the database tables'''
@@ -234,6 +251,10 @@ class Amity(object):
                 """CREATE TABLE IF NOT EXISTS Rooms
                 (id INTEGER PRIMARY KEY AUTOINCREMENT,
                  Room_Name TEXT, Room_Type TEXT, Members TEXT)""")
+
+            self.connect.execute(
+                """CREATE TABLE IF NOT EXISTS State
+                (State BLOB)""")
         except sqlite3.IntegrityError:
             return False
 
@@ -245,6 +266,9 @@ class Amity(object):
             dbname = "amity.db"
         self.conn = sqlite3.connect(dbname)
         self.connect = self.conn.cursor()
+        self.connect.execute("DROP TABLE IF EXISTS State")
+        self.connect.execute("DROP TABLE IF EXISTS People")
+        self.connect.execute("DROP TABLE IF EXISTS Rooms")
         self.create_tables(dbname)
         for person in self.people:
             self.connect.execute(
@@ -259,6 +283,15 @@ class Amity(object):
                 [str(room.room_name), str(room.room_type),
                  str([ocu.name for ocu in room.occupants])])
             self.conn.commit()
+
+        data = (self.rooms, self.livingspaces,
+                self.people, self.fellows, self.staff,
+                self.offices, self.vacant_offices,
+                self.vacant_rooms, self.unallocated)
+        pickled_data = pickle.dumps(data)
+        appdata = sqlite3.Binary(pickled_data)
+        self.connect.execute("INSERT INTO State(State) VALUES(?)", (appdata,))
+        self.conn.commit()
 
     def print_allocations(self, arg):
         """Prints the rooms and their occupants"""
