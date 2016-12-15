@@ -198,22 +198,21 @@ class Amity(object):
 
     def print_room(self, room_name):
         """Prints the occupants of a given room"""
-
-        for room in self.rooms:
-            if room_name == room.room_name:
-                print room_name
-
-                print "=" * 75
-                if len(self.rooms[room].occupants):
-                    for member in range(len(room.occupants)):
-                        print "{}.\t{}".format(
-                            member + 1,
-                            room.occupants[member])
+        details = ""
+        if room_name.upper() not in \
+                [single_room.room_name.upper() for single_room in self.rooms]:
+            print room_name + \
+                " not created yet, use 'create_room' to add it"
+        for room_to_print in self.rooms:
+            if room_to_print.room_name == room_name:
+                details += room_to_print.room_name + "\n"
+                details += "=" * 75 + "\n"
+                if room_to_print.occupants:
+                    details += "\n".join(human.name for human in
+                                         room_to_print.occupants) + "\n \n"
                 else:
-                    print "Room has no occupants at the moment"
-            else:
-                print room_name + \
-                    " not created yet, use 'create_room' to add it"
+                    details += "Room has no occupants at the moment" + "\n \n"
+                print details
                 return
 
     def load_state(self, arg):
