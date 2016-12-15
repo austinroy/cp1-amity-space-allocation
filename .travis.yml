@@ -9,7 +9,7 @@ install:
 env:
   - DB=sqlite
 # command to run tests
-script: nosetests --with-coverage
+script: nosetests --with-coverage --with-coverage --cover-erase --cover-html
 
 after_success:
   - coveralls

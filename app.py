@@ -147,7 +147,7 @@ class MyInteractive (cmd.Cmd, Amity):
         """Usage: load_state [--db=sqlite_database]"""
         amity.load_state(arg)
 
-    def do_quit(self, arg):
+    def do_quit(self):
         """Quits out of Interactive Mode."""
 
         print('Good Bye!')

@@ -1,4 +1,4 @@
-from room import Room, LivingSpace, Office
+from room import LivingSpace, Office
 
 from person import Fellow, Staff
 
@@ -12,7 +12,7 @@ import pickle
 class Amity(object):
     """docstring for Amity"""
 
-    def __init__(self, dbname="amity.db"):
+    def __init__(self):
         self.rooms = []
         self.livingspaces = []
         self.people = []
@@ -200,7 +200,7 @@ class Amity(object):
         """Prints the occupants of a given room"""
 
         for room in self.rooms:
-            if room_name == Rooms.room_name:
+            if room_name == room.room_name:
                 print room_name
 
                 print "=" * 75
