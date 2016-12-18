@@ -111,7 +111,7 @@ class MyInteractive (cmd.Cmd, Amity):
             amity.create_room(room_name, room_type)
 
     @docopt_cmd
-    def do_reallocte_person(self, arg):
+    def do_reallocate_person(self, arg):
         """Usage: reallocate_person <person_id> <new_room_name>"""
         person_id = arg["<person_id>"]
         new_room_name = arg["<new_room_name>"]

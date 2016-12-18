@@ -18,7 +18,8 @@ exclude_lines =
         if __name__ == .__main__.:
         if __name__==.__main__.:
         print
-        if
+        dbname = "amity.db"
+        return
 
 
 
