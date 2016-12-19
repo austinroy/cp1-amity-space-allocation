@@ -103,6 +103,7 @@ class Amity(object):
     def reallocate_person(self, person_id, new_room_name):
         """Reallocates people to new rooms"""
         moving_person = None
+        person_id = int(person_id)
 
         for peep in self.people:
             if peep.person_id == person_id:
