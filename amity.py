@@ -1,11 +1,7 @@
 from room import LivingSpace, Office
-
 from person import Fellow, Staff
-
 import random
-
 import sqlite3
-
 import pickle
 
 
@@ -35,12 +31,11 @@ class Amity(object):
             self.allocate_office(new_person)
             if wants_accomodation.upper() == "Y":
                 self.allocate_livingspace(new_person)
-            self.add_person_successfully(
-                name, new_id, person_title, wants_accomodation)
             self.check_office_vacancy()
             if not allocated:
                 self.unallocated.append(new_person)
-            return
+            return self.add_person_successfully(
+                name, new_id, person_title, wants_accomodation)
         elif person_title.upper() == "STAFF":
             new_person = Staff(name)
             new_id = str(new_person.person_id)
@@ -48,13 +43,12 @@ class Amity(object):
             self.staff.append(new_person)
             self.allocate_office(new_person)
             self.check_office_vacancy()
-            self.add_person_successfully(
-                name, new_id, person_title, wants_accomodation)
             if not allocated:
                 self.unallocated.append(new_person)
-            return
+            return self.add_person_successfully(
+                name, new_id, person_title, wants_accomodation)
         else:
-            print "Please enter 'Fellow' or 'Staff' as the job title"
+            return "Please enter 'Fellow' or 'Staff' as the job title"
 
     def allocate_office(self, new_person):
         """"Allocates offices"""
@@ -62,12 +56,11 @@ class Amity(object):
             self.workspace = random.choice(self.vacant_offices)
             self.workspace.occupants.append(new_person)
             print new_person.name + " assigned the office " + \
-                self.workspace.room_name
+                self.workspace.room_name + "\n"
             allocated = True
             self.check_office_vacancy()
         else:
-            print "No vacant offices at the moment,add one or try again later"
-            return
+            print "No vacant offices at the moment,add one or try again later\n"
 
     def allocate_livingspace(self, new_person):
         """Allocates Living spaces"""
@@ -79,12 +72,10 @@ class Amity(object):
             livespace = random.choice(vacant_livingspaces)
             livespace.occupants.append(new_person)
             print new_person.name + " assigned the livingspace " + \
-                livespace.room_name
+                livespace.room_name + "\n"
             allocated = True
         else:
-            print "No vacant livingspaces at the moment," \
-                "add one or try again later"
-            return
+            print "No vacant livingspaces at the moment,add one or try again later\n"
 
     def check_office_vacancy(self):
         """Adds and removes rooms from vacancy lists \
@@ -133,17 +124,17 @@ class Amity(object):
                     [human.person_id for human in room.occupants]:
                 if new_room == room:
                     # Prevent person from being allocated the same room
-                    print moving_person.name + " is already an occupant" \
-                        " of the room " + new_room.name + "."
-                    return
+                    return moving_person.name + " is already an occupant" \
+                        " of the room " + new_room.room_name + "."
                 else:
                     # Remove person from current office
                     room.occupants.remove(moving_person)
-        # Add person to new room
-        new_room.occupants.append(moving_person)
-        print "You have successfully allocated " + moving_person.name + \
-            " of Employee ID " + str(moving_person.person_id) + \
-            "\nthe following room: " + new_room.room_name
+                    # Add person to new room
+                    new_room.occupants.append(moving_person)
+                    print "You have successfully allocated " + \
+                        moving_person.name + \
+                        " of Employee ID " + str(moving_person.person_id) + \
+                        "\nthe following room: " + new_room.room_name
 
     def add_person_successfully(self, name, person_id,
                                 person_title, wants_accomodation):
@@ -156,28 +147,27 @@ class Amity(object):
         """Adds a new room in the system"""
         if room_name in \
                 [single_room.room_name for single_room in self.rooms]:
-            print "Room already exists, try another name"
-            return
+            return "Room already exists, try another name"
         if room_type.upper() == "OFFICE":
             new_room = Office(room_name)
             self.offices.append(new_room)
             self.rooms.append(new_room)
             self.vacant_offices.append(new_room)
             self.vacant_rooms.append(new_room)
-            self.succesful_create_room(room_name, room_type)
+            return self.succesful_create_room(room_name, room_type)
         elif room_type.upper() == "LIVING":
             new_room = LivingSpace(room_name)
             self.livingspaces.append(new_room)
             self.rooms.append(new_room)
             self.vacant_rooms.append(new_room)
-            self.succesful_create_room(room_name, room_type)
+            return self.succesful_create_room(room_name, room_type)
 
         else:
-            print "Please enter 'Office' or 'Living' as the room type"
+            return "Please enter 'Office' or 'Living' as the room type"
 
     def succesful_create_room(self, room_name, room_type):
         """Confirms creation of a new room"""
-        print "Sucessfully created the following room \n"\
+        return "Sucessfully created the following room \n"\
             "Room name: " + room_name + " "\
             "Room type: " + room_type + "\n"
 
@@ -202,19 +192,20 @@ class Amity(object):
         details = ""
         if room_name.upper() not in \
                 [single_room.room_name.upper() for single_room in self.rooms]:
-            print room_name + \
+            return room_name + \
                 " not created yet, use 'create_room' to add it"
         for room_to_print in self.rooms:
             if room_to_print.room_name == room_name:
                 details += room_to_print.room_name + "\n"
                 details += "=" * 75 + "\n"
                 if room_to_print.occupants:
-                    details += "\n".join(human.name for human in
-                                         room_to_print.occupants) + "\n \n"
+                    for human in room_to_print.occupants:
+                        details += "{}  {}\n".format(human.name,
+                                                     human.person_id)
+                    details += "\n \n"
                 else:
                     details += "Room has no occupants at the moment" + "\n \n"
-                print details
-                return
+                return details
 
     def load_state(self, arg):
         """Loads data from a db"""

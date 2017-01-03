@@ -100,15 +100,15 @@ class MyInteractive (cmd.Cmd, Amity):
             wants_accomodation = arg["--accomodate"]
         else:
             wants_accomodation = "N"
-        amity.add_person(first_name, last_name, person_title,
-                         wants_accomodation)
+        print(amity.add_person(first_name, last_name, person_title,
+                               wants_accomodation))
 
     @docopt_cmd
     def do_create_room(self, arg):
         """Usage: create_room <room_type> <room_name>..."""
         room_type = arg["<room_type>"]
         for room_name in arg["<room_name>"]:
-            amity.create_room(room_name, room_type)
+            print(amity.create_room(room_name, room_type))
 
     @docopt_cmd
     def do_reallocate_person(self, arg):
@@ -125,7 +125,7 @@ class MyInteractive (cmd.Cmd, Amity):
     @docopt_cmd
     def do_print_room(self, arg):
         """Usage: print_room <room_name>"""
-        amity.print_room(arg["<room_name>"])
+        print(amity.print_room(arg["<room_name>"]))
 
     @docopt_cmd
     def do_print_allocations(self, arg):

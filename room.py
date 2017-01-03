@@ -17,10 +17,7 @@ class Office(Room):
         self.room_type = "Office"
 
     def isvacant(self):
-        if len(self.occupants) < self.max_occupancy:
-            return True
-        else:
-            return False
+        return len(self.occupants) < self.max_occupancy
 
 
 class LivingSpace(Room):
@@ -33,7 +30,4 @@ class LivingSpace(Room):
         self.room_type = "Living"
 
     def isvacant(self):
-        if len(self.occupants) < self.max_occupancy:
-            return True
-        else:
-            return False
+        return len(self.occupants) < self.max_occupancy

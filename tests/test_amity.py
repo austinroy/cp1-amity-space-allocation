@@ -145,7 +145,6 @@ class TestAmity(unittest.TestCase):
         # Confirm data is in file
         # with open("unallocated.txt") as unallocated:
         #     lines = unallocated.readlines()
-        #     self.assertTrue("LivingSpace1\n" in lines)
         #     self.assertTrue("Office1\n" in lines)
         #     self.assertTrue("Random Fellow\n" in lines)
         os.remove("unallocated.txt")
