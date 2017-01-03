@@ -1,6 +1,6 @@
 # AMITY SPACE ALLOCATOR
 
-[![Build Status](https://travis-ci.org/andela-austinroy/cp1-amity-space-allocation.svg?branch=develop)](https://travis-ci.org/andela-austinroy/cp1-amity-space-allocation) [![Coverage Status](https://coveralls.io/repos/github/andela-austinroy/cp1-amity-space-allocation/badge.svg?branch=master)](https://coveralls.io/github/andela-austinroy/cp1-amity-space-allocation?branch=develop) [![Code Health](https://landscape.io/github/andela-austinroy/cp1-amity-space-allocation/develop/landscape.svg?style=plastic)](https://landscape.io/github/andela-austinroy/cp1-amity-space-allocation/develop)
+[![Build Status](https://travis-ci.org/andela-austinroy/cp1-amity-space-allocation.svg?branch=develop)](https://travis-ci.org/andela-austinroy/cp1-amity-space-allocation) [![Coverage Status](https://coveralls.io/repos/github/andela-austinroy/cp1-amity-space-allocation/badge.svg?branch=develop)](https://coveralls.io/github/andela-austinroy/cp1-amity-space-allocation?branch=develop) [![Code Health](https://landscape.io/github/andela-austinroy/cp1-amity-space-allocation/develop/landscape.svg?style=plastic)](https://landscape.io/github/andela-austinroy/cp1-amity-space-allocation/develop)
 
 Checkpoint one project on amity space allocation application system. The system allows you to add people to it and assigns them rooms automatically. These rooms are also created in the same system before assignment. The project was developed using and runs on python 2.7.
 
@@ -41,25 +41,25 @@ $ python app.py -i
 ```
 
 Execute the commands:
-```
-create_room <room_name>... - Creates rooms in Amity. Using this command I should be able to create as many rooms as possible by specifying multiple room names after the create_room command.
 
-add_person <person_name> <FELLOW|STAFF> [wants_accommodation] - Adds a person to the system and allocates the person to a random room. wants_accommodation here is an optional argument which can be either Y or N. The default value if it is not provided is N.
+1. `create_room <room_type> <room_name>...` - Creates rooms in Amity. It is possible to create multiple rooms of the same type by providing several room names after specifying the room type.
 
-reallocate_person <person_identifier> <new_room_name> - Reallocate the person with person_identifier to new_room_name.
+2. `add_person <person_name> <FELLOW|STAFF> [wants_accommodation]`- Adds a person to the system and allocates the person to a random room, wants_accommodation here is an optional argument which can be either Y or N. The default value if it is not provided is N.
 
-load_people - Adds people to rooms from a txt file. See Appendix 1A for text input format.
+3. `reallocate_person <person_identifier> <new_room_name>` - Reallocate the person with `person_identifier` as their id to a room called `new_room_name`.
 
-print_allocations [-o=filename]  - Prints a list of allocations onto the screen. Specifying the optional -o option here outputs the registered allocations to a txt file. See Appendix 2A for format.
+4. `load_people <filename>` - Adds people to rooms from a txt file.
 
-print_unallocated [-o=filename] - Prints a list of unallocated people to the screen. Specifying the -o option here outputs the information to the txt file provided.
+5. `print_allocations [--o=filename]`  - Prints a list of allocations onto the screen. Specifying the optional --o option here outputs the registered allocations to a txt file.
 
-print_room <room_name> - Prints  the names of all the people in room_name on the screen.
+6. `print_unallocated [--o=filename]` - Prints a list of unallocated people to the screen. Specifying the --o option here outputs the information to the txt file provided.
 
-save_state [--db=sqlite_database] - Persists all the data stored in the app to a SQLite database. Specifying the --db parameter explicitly stores the data in the sqlite_database specified.
+7. `print_room <room_name>` - Prints  the names of all the people in `room_name` on the screen.
 
-load_state <sqlite_database> - Loads data from a database into the application.
-```
+8. `save_state [--db=sqlite_database]` - Persists all the data stored in the app to a SQLite database. Specifying the --db parameter explicitly stores the data in the `sqlite_database` specified.
+
+9. `load_state [--db=sqlite_database]` - Loads data from a database into the application.
+
 
 ## Running the tests
 

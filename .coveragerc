@@ -5,6 +5,7 @@ omit =
     test_*
     */sqlite3*
     */encodings*
+    */lib/*
 
 
 
