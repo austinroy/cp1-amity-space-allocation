@@ -71,7 +71,7 @@ It should return the test results including coverage.
 
 * [Python](http://www.python.org) - A verstile programming language
 * [Sqlite3](https://sqlite.org/) - Database Management engine
-* [Docopt](https://rdecopt.org) - Python commandline arguement parser
+* [Docopt](https://docopt.org) - Python commandline arguement parser
 
 ## Authors
 
