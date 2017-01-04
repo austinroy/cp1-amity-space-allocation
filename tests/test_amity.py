@@ -63,16 +63,6 @@ class TestAmity(unittest.TestCase):
         self.assertEqual(2, len(self.amity.rooms))
         self.assertEqual(1, len(self.amity.offices))
 
-    def test_office_has_capacity_of_6(self):
-        """Ensure office has a capacity of 6"""
-        office = Office(self)
-        self.assertEqual(6, office.max_occupancy)
-
-    def test_livingspace_has_capacity_of_4(self):
-        """Ensure livingspace has a capacity of 4"""
-        livingspace = LivingSpace(self)
-        self.assertEqual(4, livingspace.max_occupancy)
-
     def test_print_room(self):
         """Tests for the print_room function"""
         room = Room(self)
@@ -92,7 +82,8 @@ class TestAmity(unittest.TestCase):
                          msg="Newly added people should "
                          "be added to room occupants")
 
-    def test_rellocate_person(self):
+
+    def test_reallocate_person(self):
         """Tests the rellocation of people"""
         # Add a new office and assign it to a variable
         self.amity.create_room(
@@ -107,7 +98,6 @@ class TestAmity(unittest.TestCase):
             int(self.randomstaff.person_id),
             "Office2",
         )
-        # office2 = self.amity.offices[1]
         # Test that Random Staff now occupies Office2
         self.assertEqual(1, len(self.office2.occupants))
         self.assertEqual("Random Staff", self.office2.occupants[0].name,
@@ -142,11 +132,6 @@ class TestAmity(unittest.TestCase):
         })
         # Confirm that file is created
         self.assertTrue(os.path.exists("unallocated.txt"))
-        # Confirm data is in file
-        # with open("unallocated.txt") as unallocated:
-        #     lines = unallocated.readlines()
-        #     self.assertTrue("Office1\n" in lines)
-        #     self.assertTrue("Random Fellow\n" in lines)
         os.remove("unallocated.txt")
 
     def test_check_office_vacancy(self):
@@ -190,18 +175,6 @@ class TestAmity(unittest.TestCase):
             break
 
         os.remove("amity.db")
-
-    def test_new_office_is_vacant(self):
-        """Test new office is vacant"""
-        self.amity.create_room("RandomOffice", "Office")
-        randomoffice = self.amity.offices[1]
-        self.assertTrue(randomoffice.isvacant())
-
-    def test_new_livingspace_is_vacant(self):
-        """Test new livingspace is vacant"""
-        self.amity.create_room("RandomLiving", "Living")
-        randomLiving = self.amity.livingspaces[1]
-        self.assertTrue(randomLiving.isvacant())
 
     def test_load_state(self):
         """Tests the loading of data from an database"""

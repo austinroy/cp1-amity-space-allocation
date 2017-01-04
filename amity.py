@@ -6,7 +6,7 @@ import pickle
 
 
 class Amity(object):
-    """docstring for Amity"""
+    """Main class containing the core functions of the program"""
 
     def __init__(self):
         self.rooms = []
@@ -22,7 +22,7 @@ class Amity(object):
     def add_person(self, first_name, last_name, person_title,
                    wants_accomodation="N"):
         name = first_name + " " + last_name
-        allocated = False
+        self.allocated = False
         if person_title.upper() == "FELLOW":
             new_person = Fellow(name)
             new_id = str(new_person.person_id)
@@ -32,7 +32,7 @@ class Amity(object):
             if wants_accomodation.upper() == "Y":
                 self.allocate_livingspace(new_person)
             self.check_office_vacancy()
-            if not allocated:
+            if not self.allocated:
                 self.unallocated.append(new_person)
             return self.add_person_successfully(
                 name, new_id, person_title, wants_accomodation)
@@ -43,7 +43,7 @@ class Amity(object):
             self.staff.append(new_person)
             self.allocate_office(new_person)
             self.check_office_vacancy()
-            if not allocated:
+            if not self.allocated:
                 self.unallocated.append(new_person)
             return self.add_person_successfully(
                 name, new_id, person_title, wants_accomodation)
@@ -52,13 +52,16 @@ class Amity(object):
 
     def allocate_office(self, new_person):
         """"Allocates offices"""
-        if len(self.vacant_offices):
-            self.workspace = random.choice(self.vacant_offices)
-            self.workspace.occupants.append(new_person)
+        vacant_offices = []
+        for room in self.rooms:
+            if room.room_type == "Office" and room.isvacant():
+                vacant_offices.append(room)
+        if len(vacant_offices):
+            workspace = random.choice(vacant_offices)
+            workspace.occupants.append(new_person)
             print new_person.name + " assigned the office " + \
-                self.workspace.room_name + "\n"
-            allocated = True
-            self.check_office_vacancy()
+                workspace.room_name + "\n"
+            self.allocated = True
         else:
             print "No vacant offices at the moment,add one or try again later\n"
 
@@ -66,14 +69,14 @@ class Amity(object):
         """Allocates Living spaces"""
         vacant_livingspaces = []
         for room in self.rooms:
-            if room.room_type == "Living" and room.isvacant:
+            if room.room_type == "Living" and room.isvacant():
                 vacant_livingspaces.append(room)
         if len(vacant_livingspaces):
             livespace = random.choice(vacant_livingspaces)
             livespace.occupants.append(new_person)
             print new_person.name + " assigned the livingspace " + \
                 livespace.room_name + "\n"
-            allocated = True
+            self.allocated = True
         else:
             print "No vacant livingspaces at the moment,add one or try again later\n"
 
@@ -108,7 +111,8 @@ class Amity(object):
             if room.room_name == new_room_name:
                 new_room = room
 
-        if new_room_name not in [room.room_name for room in self.vacant_rooms]:
+        if new_room_name not in [room.room_name for room in
+                                 self.rooms if room.isvacant]:
             print "The room enterred doesn't exist or is full, enter another"
             return
 
@@ -138,7 +142,7 @@ class Amity(object):
 
     def add_person_successfully(self, name, person_id,
                                 person_title, wants_accomodation):
-        print "You've successfully added \n" \
+        return "You've successfully added \n" \
             + "\nName: " + name + " ID: " + person_id +\
             "\nJob title: " + person_title + \
             "\nWants accomodation: " + wants_accomodation

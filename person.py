@@ -1,20 +1,22 @@
 class Person(object):
-    """docstring for Person"""
+    """Class containing attributes of all person types"""
+
+    def __init__(self, name):
+        self.name = name
+        self.person_id = id(self)
 
 
 class Fellow(Person):
-    """docstring for Fellow"""
+    """Class containing attributes of Fellows"""
+    person_title = "Fellow"
 
     def __init__(self, name):
-        self.name = name
-        self.person_title = "Fellow"
-        self.person_id = id(self)
+        super(Fellow, self).__init__(name)
 
 
 class Staff(Person):
-    """docstring for Staff"""
+    """Class containing attributes of Staff"""
+    person_title = "Staff"
 
     def __init__(self, name):
-        self.name = name
-        self.person_title = "Staff"
-        self.person_id = id(self)
+        super(Staff, self).__init__(name)
