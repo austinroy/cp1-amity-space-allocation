@@ -104,8 +104,7 @@ class Amity(object):
                 moving_person = peep
 
         if moving_person is None:
-            print "That person ID does not exist, try another"
-            return
+            return "That person ID does not exist, try another"
 
         for room in self.rooms:
             if room.room_name == new_room_name:
@@ -113,15 +112,13 @@ class Amity(object):
 
         if new_room_name not in [room.room_name for room in
                                  self.rooms if room.isvacant]:
-            print "The room enterred doesn't exist or is full, enter another"
-            return
+            return "The room enterred doesn't exist or is full, enter another"
 
         if moving_person.person_title == "Staff":
             # Prevent staff from being allocated living spaces
             if new_room.room_type == "Living":
-                print "Staff members cannot be allocated " \
+                return "Staff members cannot be allocated " \
                     "living spaces."
-                return
 
         for room in self.vacant_rooms:
             if moving_person.person_id in \
@@ -135,7 +132,7 @@ class Amity(object):
                     room.occupants.remove(moving_person)
                     # Add person to new room
                     new_room.occupants.append(moving_person)
-                    print "You have successfully allocated " + \
+                    return "You have successfully allocated " + \
                         moving_person.name + \
                         " of Employee ID " + str(moving_person.person_id) + \
                         "\nthe following room: " + new_room.room_name

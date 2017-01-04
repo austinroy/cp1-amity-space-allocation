@@ -115,7 +115,7 @@ class MyInteractive (cmd.Cmd, Amity):
         """Usage: reallocate_person <person_id> <new_room_name>"""
         person_id = arg["<person_id>"]
         new_room_name = arg["<new_room_name>"]
-        amity.reallocate_person(person_id, new_room_name)
+        print(amity.reallocate_person(person_id, new_room_name))
 
     @docopt_cmd
     def do_load_people(self, arg):
